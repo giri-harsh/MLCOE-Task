@@ -8,29 +8,31 @@ using namespace std;
 
 class Question {
 private:
-    string questionText;
-    vector<string> options;
-    char correctAnswer;
+    string questionText; //actual questions
+    vector<string> options; //4 answer choice
 
-public:
+    char correctAnswer; // correct optiona a b c d 
+
+    public:
     
-    Question(string text, vector<string> opts, char correct) {
-        questionText = text;
-        options = opts;
-        correctAnswer = correct;
+        Question(string text, vector<string> opts, char correct) { // this is a constructor y
+            questionText = text;
+            options = opts;
+            correctAnswer = correct;
     }
     
     
-    void displayQuestion() { // getter
-        cout << questionText << endl;
-        for (int i = 0; i < options.size(); i++) {
-            char optionLetter = 'a' + i;  
-            cout << optionLetter << ") " << options[i] << endl;
-        }
-    }
+    void  displayQuestion() { // getter 
+        cout    << questionText << endl;
+                for (int i = 0; i < options.size(); i++) {
+                    char optionLetter = 'a' + i;  
+                    cout << optionLetter<<" " << options[i] << endl;
+                }
+            }
     
     
-    bool isCorrect(char userAnswer) {
+        
+            bool isCorrect(char userAnswer) {
         return (userAnswer == correctAnswer);
     }
     
@@ -48,7 +50,7 @@ private:
 
 public:
     
-    Quiz() {
+    Quiz() { // const
         score = 0;
         totalQuestions = 0;
     }
@@ -61,42 +63,45 @@ public:
     
     
     void startQuiz() {
-        cout << "quizz start" << endl;
-        cout << string(40, '=') << endl;
-        
-        
-        for (int i = 0; i < questions.size(); i++) {
-            cout << "\nQ" << (i + 1) << ": ";
-            questions[i].displayQuestion();
-            
-            char userAnswer;
-            
-            while (true) {
-                cout << "Your Answer (a/b/c/d): ";
-                cin >> userAnswer;
-                
-                
-                cout << "Please enter a valid option (a, b, c, or d)" << endl;
-            }
-            
-            
-            if (questions[i].isCorrect(userAnswer)) {
-                score++;
-                cout << " Correct, Your Score: " << score << endl;
+    cout << "Quiz Start!" << endl;
+    cout << string(40, '=') << endl;
+
+    for (int i = 0; i < questions.size(); i++) {
+        cout << "\nQ" << (i + 1) << ": ";
+        questions[i].displayQuestion();
+
+        char userAnswer;
+
+        // Input validation loop
+        while (true) {
+            cout << "Your Answer (a/b/c/d): ";
+            cin >> userAnswer;
+            userAnswer = tolower(userAnswer); // make lowercase for safety
+
+            if (userAnswer >= 'a' && userAnswer <= 'd') {
+                break; 
             } else {
-                cout << "Wrong! Correct answer was: " 
-                     << questions[i].getCorrectAnswer() << endl;
-                cout << "Score " << score << endl;
+                cout << "Invalid input!" << endl;
             }
         }
-        
-        
-        showResults();
+
+        // Check correctness
+        if (questions[i].isCorrect(userAnswer)) {
+            score++;
+            cout << " Correct! Your Score: " << score << endl;
+        } else {
+            cout << "Wrong Correct answer was: "
+                 << questions[i].getCorrectAnswer() << endl;
+            cout << "Current Score: " << score << endl;
+        }
     }
-    
+
+    showResults();
+}
+
     
     void showResults() {
-        cout << "\n" << string(40, '=') << endl;
+        cout << "\n" <<" =============================================== " << endl;
         cout << "QUIZ END! " << endl;
         cout << "Final Score: " << score << "/" << totalQuestions << endl;
         
@@ -107,11 +112,14 @@ public:
         
         if (percentage >= 80) {
             cout << " Excellent work!" << endl;
-        } else if (percentage >= 60) {
+        } 
+        else if (percentage >= 60) {
             cout << "Good job!" << endl;
-        } else if (percentage >= 40) {
+        }
+         else if (percentage >= 40) {
             cout << " Not bad, keep practicing!" << endl;
-        } else {
+        }
+         else {
             cout << " Keep studying and try again!" << endl;
         }
     }
@@ -134,7 +142,7 @@ int main() {
     Question q4("Which company created the iPhone?",
                 {"Google", "Microsoft", "Apple", "Samsung"}, 'c');
     
-    Question q5("What is 2 + 2 × 3?",
+    Question q5("What is 2 + 2 x 3?",
                 {"10", "8", "12", "6"}, 'b');
     
     
